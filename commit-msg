@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -x
+
+
+print_error_info()
+{
+cat <<-EOF
+##############################################################################
+##                                                                          ##
+## Commit message style check                                               ##
+##                                                                          ##
+## Example:                                                                 ##
+##     <type>(<scope>): <subject>                                           ##
+##                                                                          ##
+##     <body>                                                               ##
+##                                                                          ##
+##     <footer>                                                             ##
+##                                                                          ##
+## <type>      Must be follow one :                                         ##
+## 	         "feat","fix","docs","style","refactor","test","chore"      ##
+##                                                                          ##
+## <scope>     用于说明 commit影响范围                                      ##
+##                                                                          ##
+## <subject>   commit 目的的简短描述,不超过50个字符                         ##
+##                                                                          ##
+## <Footer>    如果当前代码与上一个版本不兼容                               ##
+##             则 Footer 部分以BREAKING CHANGE开头                          ##
+##                                                                          ##
+## <Revert>    如果当前 commit 用于撤销以前的 commit                        ##
+##             则必须以revert:开头,后面跟着被撤销 Commit 的 Header          ##
+##                                                                          ##
+##                                                                          ##
+##############################################################################
+EOF
+}
+
+type_list="feat fix docs style refactor test chore"
+
+#读取提交信息文件,删除文件中的注释行
+
+sed -i '/^#/d' $1
+
+for type in $type_list
+do
+        echo "$type"
+done
+
+exit 1 
+
+exit 0
