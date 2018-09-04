@@ -1,9 +1,9 @@
 #! /bin/bash
 set -x
-
+srcpath=./hooks/
 hooks="commit-msg pre-commit"
 
-chmod +x $hooks
+chmod +x -R $srcpath
 
 if ! [ -d ".git/hooks/"  ]
 then
@@ -17,7 +17,7 @@ rm -rf $hooks
 
 for i in $hooks
 do
-ln -s ../../$i $i
+ln -s ../../$srcpath/$i $i
 done
 
 cd $cur

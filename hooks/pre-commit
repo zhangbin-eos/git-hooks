@@ -50,7 +50,11 @@ fi
 INDENT_CMD="indent -linux -bls -blf -bl -bli0"
 
 file_list=$(git diff --cached --name-only|grep -E "*\.c|*\.h|*\.cpp|*\.hpp|*\.cxx|*\.hxx")
-echo "use [indent -linux -bls -blf -bl -bli0 ] check... "
+if [ -z "file_list" ]
+then
+        echo "use [indent -linux -bls -blf -bl -bli0 <filename>] check C file... "
+fi
+
 for file in $file_list
 do
         tempfile=$(mktemp $file.XXXXXXXXXX)

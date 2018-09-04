@@ -13,7 +13,7 @@ cat <<-EOF
 ## Example:                                                                 ##
 ##     <type>(<scope>): <subject>                                           ##
 ##                                                                          ##
-##     <body>                                                               ##
+##           <body>                                                         ##
 ##                                                                          ##
 ##     <footer>                                                             ##
 ##                                                                          ##
@@ -38,7 +38,7 @@ EOF
 print_error_2_info()
 {
         cat <<-EOF
-第二行必须是空行,或者只有第一行
+第二行必须是空行
 EOF
 }
 
