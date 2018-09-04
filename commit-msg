@@ -1,9 +1,9 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 
-print_error_info()
+print_error_1_info()
 {
 cat <<-EOF
 ##############################################################################
@@ -35,17 +35,54 @@ cat <<-EOF
 EOF
 }
 
-type_list="feat fix docs style refactor test chore"
+print_error_2_info()
+{
+        cat <<-EOF
+第二行必须是空行,或者只有第一行
+EOF
+}
+
 
 #读取提交信息文件,删除文件中的注释行
 
 sed -i '/^#/d' $1
 
-for type in $type_list
+
+linenum=1
+breaknum=0
+
+reg1='((^feat)|(^fix)|(^docs)|(^style)|(^refactor)|(^test)|(^chore))'
+
+cat $1 | while read line
 do
-        echo "$type"
+
+        case $linenum in
+                1)
+                        res=$(echo $line|grep -E ''$reg1'([\(]\w+[\)]){0,1}\:.+')
+                        if [ -z "$res" ]
+                        then
+                                breaknum=1
+                        fi
+                        ;;
+                2)
+                        if ! echo $line | grep -E "^$"
+                        then
+                                breaknum=2
+                        fi
+                        ;;
+        esac
+
+        if [ $breaknum -ne 0 ]
+        then
+                print_error_"$breaknum"_info
+                echo "commit massage error"
+                exit 1
+        fi
+
+        linenum=$(( $linenum + 1 ))
 done
 
-#exit 1
 
-exit 0
+#for debug
+#echo "commit ok"
+#exit 1

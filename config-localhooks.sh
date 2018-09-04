@@ -3,6 +3,7 @@ set -x
 
 hooks="commit-msg pre-commit"
 
+chmod +x $hooks
 
 if ! [ -d ".git/hooks/"  ]
 then
