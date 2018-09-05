@@ -58,11 +58,17 @@ fi
 for file in $file_list
 do
         tempfile=$(mktemp $file.XXXXXXXXXX)
+        tempfile_M=$(mktemp $file.XXXXXXXXXX)
+        #删除^M
 
-        cat $file | $INDENT_CMD -o $tempfile
+        sed "s/\r//g" $file -o $tempfile_M
+
+        cat $tempfile_M | $INDENT_CMD -o $tempfile
+
         diff -Nu $file $tempfile
         diff_res=$?
-        rm $tempfile
+
+        rm -rf $tempfile $tempfile_M
 
         if ! [ $diff_res -eq 0 ]
         then
@@ -75,10 +81,21 @@ you need used
 or
 
         'cat $file | $INDENT_CMD -o $file'
+
+if have ^M,you can use
+
+        sed -i "s/\r//g" $file
+
 EOF
                 exit 1
         fi
 done
 
 # 检测是否有行尾空格
+cat <<EOF
+you can use this command to del the line-end space
+
+        sed -i "s/\s+$//g"  <file>
+
+EOF
 exec git diff-index --check --cached $against --
