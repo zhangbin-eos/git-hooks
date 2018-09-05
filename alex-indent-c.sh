@@ -2,14 +2,15 @@
 
 indent_cmd="indent -linux -bls -blf -bl -bli0"
 filepath=$(pwd)
-workpath="~/.indent_workpath/"
+
+workpath="$HOME/.indent_workpath/"
 
 mkdir -p $workpath
 
 for file in $*
 do
         echo "indent file \"$file\""
-        tempfile=$(mktemp $file.XXXXXXXXXX)
+        tempfile=$(mktemp tmp.XXXXXXXXXX)
 
         cd $workpath
         cp $filepath/$file ./$tempfile
